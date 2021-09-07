@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my-demo-节流</title>
+    <style>
+        #shy {
+            width: 777px;
+            height: 777px;
+            border: 7px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="shy">
+
+    </div>
+
+    <script>
+
+        // 函数节流指的是函数在某个时间内频繁调用 只会执行第一次的调用 等一次调用完成才会执行下一次
+
+        // 首先实现用闭包保存 previous 变量
+        const throttle = (fn, wait) => {
+            // 上一次执行函数的时间
+            let previous = 0
+            return function (...args) {
+                console.log(previous)
+                // 获取当前时间, 转换成时间戳, 单位毫秒
+                let now = +new Date()
+                if (now - previous > wait) {
+                    previous = now
+                    fn.apply(this, args)
+                }
+
+            }
+        }
+
+        // 执行 throttle 函数返回新的函数
+        // const betterFn = throttle(() => console.log('fn 函数执行了'), 1000)
+        // 测试没1s执行一次
+        // setInterval(betterFn, 10)
+    </script>
+
+</body>
+
+</html>

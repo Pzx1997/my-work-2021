@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy 实例</title>
+</head>
+
+<body>
+    <script>
+        const obj = {
+            a = 1
+        }
+
+        // const proxy = new Proxy(obj, {})
+        // vue3 数据绑定运用的就是 Proxy
+        // 总共有13种拦截的方法 
+        // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+        const proxy = new Proxy(obj, {
+            // 获取 obj 的值会调用get拦截下来
+            get(target, key, receiver) {
+                console.log('get 拦截', target)
+            },
+            // 修改 obj 的值会被set拦截下来
+            set(target, key, value, receiver) {
+                console.log('set 拦截', target)
+            },
+        })
+
+    </script>
+</body>
+
+</html>

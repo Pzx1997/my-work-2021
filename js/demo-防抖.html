@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my-demo-防抖</title>
+
+    <style>
+        #shy {
+            width: 777px;
+            height: 777px;
+            border: 7px solid pink;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="shy">
+
+    </div>
+
+    <script>
+        const shy = document.querySelector('#shy')
+
+        // 函数防抖指的是函数在某个时间内 无论触发多少次回调 只会执行最后一次  
+        // 实现原理利用定时器
+
+        // 方案1
+        // fn 需要处理防抖的函数  wait 等待间隔
+        const myDebounce = (fn, wait = 100) => {
+            // 通过闭包缓存一个定时器
+            let timer = null
+
+            // 将防抖处理结果当函数返回
+            // 触发事件回调时执行这个返回函数
+            return function (...args) {
+                // 如果已经设定过定时器就清楚上一次的定时器
+                if (timer) clearTimeout(timer)
+
+                // 设置一个新的定时器，定时器结束后执行传入的函数 fn
+                timer = setTimeout(() => {
+                    fn.apply(this, args)
+                }, wait)
+            }
+        }
+
+        // 测试是否生效
+        // const test1 = myDebounce((e) => console.log(e, '防抖函数执行啦~~~'), 1000)
+        // shy.addEventListener('mousemove', test1)
+
+        // 方案2
+        // 添加第一次触发立即执行功能
+        // 添加一个flag 如果为 true 则表示立即执行
+        const myDebounce_2 = (fn, wait = 100, flag) => {
+            let timer = null
+
+            return function (...args) {
+                if (timer) clearTimeout(timer)
+                // flag 为true 表示第一次触发 
+                if (flag && !timer) {
+                    fn.apply(this, args)
+                }
+
+                timer = setTimeout(() => {
+                    fn.apply(this, args)
+                }, wait)
+            }
+        }
+
+        // 测试是否生效
+        // const test2 = myDebounce_2((e) => console.log(e, '防抖函数执行啦~~~'), 1000, true)
+        // shy.addEventListener('mousemove', test2)
+
+    </script>
+</body>
+
+</html>
