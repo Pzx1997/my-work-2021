@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布订阅模式</title>
+</head>
+
+<body>
+</body>
+
+<script>
+    // 发布订阅模式是一种设计模式，并不仅仅用于js中，这种模式可以帮助我们解开'回调地狱'
+    // 发布者 ——发布消息--> 消息中心 ——通知--> 订阅者 ——订阅--> 消息中心
+    // 消息中心：负责存储消息与订阅者的对应关系，有消息触发是，负责通知订阅者
+    // 订阅者：去消息中心订阅自己感兴趣的消息
+    // 发布者：满足条件时，通知消息中心发布消息
+
+    // 手写发布订阅模式
+    class Pubsub {
+        constructor() {
+            // 一个对象存放所有的消息订阅
+            // 每个消息对应一个数组,数组结构如下
+            // {
+            //     "event1":[cb1, cb2]
+            // }
+            this.events = {}
+        }
+
+        subscribe(event, cb) {
+            if (this.events[event]) {
+                // 如果有人订阅过了，这个键已经存在，就往里面加就好了
+                this.events[event].push(cb)
+            } else {
+                // 没人订阅过，就建一个数组，回调放进去
+                this.events[event] = [cb]
+            }
+        }
+
+        publish(event, ...args) {
+            // 取出所有订阅者的回调执行
+            const subscribeEvents = this.events[event]
+
+            if (subscribeEvents && subscribeEvents.length) {
+                subscribeEvents.forEach(cb => {
+                    cb.call(this, args)
+                })
+            }
+        }
+
+        unsubscribe(event, cb) {
+            // 删除某个订阅者，保留其他订阅者
+            const subscribeEvents = this.events[event]
+
+            if (subscribeEvents && subscribeEvents.length) {
+                this.events[event] = this.events[event].filter(callback => callback !== ab)
+            }
+        }
+    }
+
+</script>
+
+</html>
