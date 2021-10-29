@@ -45,7 +45,7 @@
 
 // 先定义三个常亮表示状态
 var PENDING = 'pending';
-var FULFILLED = 'filfilled';
+var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
  
 module.exports = class MyPromise {
